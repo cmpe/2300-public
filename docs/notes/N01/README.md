@@ -14,11 +14,11 @@
    |Equality|``==  !=`|
    |Logical AND|`&`|
    |Logical XOR|`^`|
-   |Logical OR|`|`|
+   |Logical OR|`\|`|
    |Conditional AND|`&&`|
-   |Conditional OR|`||`|
+   |Conditional OR|`\|\|`|
    |Conditional|`?:`|
-   |Assignment|`=  \*=  /=  %=  +=  -=  <<=  >>=  &=  ^=  |=`|
+   |Assignment|`=  \*=  /=  %=  +=  -=  <<=  >>=  &=  ^=  \|=`|
 
 ## Data Types in C#
 By now you should be familiar with the fundamental data types available in C#. All C# fundamental data types are value types (except string), and have a corresponding system type behind them. The following table shows the C# aliases, data types, and ranges:
