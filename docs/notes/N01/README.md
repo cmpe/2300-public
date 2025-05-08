@@ -11,7 +11,7 @@
    |Additive|`+  -`|
    |Shift|`<<  >>`|
    |Relational and type testing|`<  >  <=  >=  is  as`|
-   |Equality|``==  !=`|
+   |Equality|`==  !=`|
    |Logical AND|`&`|
    |Logical XOR|`^`|
    |Logical OR|`|`|
