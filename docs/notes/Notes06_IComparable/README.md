@@ -99,3 +99,111 @@ class CBox : `IComparable` // support comparisons for library use
   list.Sort(); // Needs a way to order the set, Sort will find and use your IComparable support
   WriteLine($"{list[0]} - {list[1]} - {list[2]}");
 }
+```
+`Comparison<>` and `IComparer<T>`
+To allow alternate methods of sorting there are a several choices. Examination of the `Sort()` method indicates a number of overloads. One version accepts a `Comparison<>` and another a `IComparer<T>` interface.
+
+The simplest version is to supply a `Comparison<>` method
+You generate a static method that conforms to the signature definition similar to CompareTo()
+
+ie. `[internal/public] static int MyComparison( type arg1, type arg2 )` 
+
+// where the type is your list type, note that since the method is static there is no `“this”`, and as such both comparison objects arrive as arguments to the method.
+
+// `Comparison<int>` method for example, as a form member comparison
+```csharp
+public static int MyCompare(int arg1, int arg2) // 2 ARGS required here
+{
+  return -1 * arg1.CompareTo(arg2); // Leverage CompareTo, but reverse order to get descending
+}
+
+//Then :
+        aList.Sort(MyCompare); // Note the MyCompare is not () invoked !, the name is the arg
+```
+
+
+Or a more typical use with user defined classes :
+```csharp
+internal class Thing : IComparable // recall internal is public WITHIN this assembly/exe/dll
+{	
+  public int X { get; private set; }
+  public Thing( int iVal )
+  {
+    X = iVal;
+  }
+  // Other details omitted
+  // Comparison<> function for use with alternate sort requirements
+  // static helper for Thing based Collections to sort by
+  // Note : the necessary null tests, note negation of normal singular null tests
+  internal static int MyThingCompare(Thing arg1, Thing arg2) // 2 arguments here, no "this" 
+  {
+    if (arg1 == null && arg2 == null) return 0; // same, both null
+    if (arg1 == null) return -1; // ascending, null is "less" than anything, so arg1 is LESS
+    if (arg2 == null) return 1; // ascending, null is "less" than anything, so arg1 is MORE
+    // Both not null here
+    return arg1.X.CompareTo(arg2.X); // normal sort of int
+  }
+}
+```
+```csharp
+// Now sort it, supply MyThingCompare method as comparer
+// For use with : Sort(Comparison<Thing> Comparison); // signature overload
+// provide EntryPoint to automatically create delegate used to Sort()
+
+things.Sort(Thing.MyThingCompare);
+
+WriteLine("List of Thing, sorted by MyThingCompare : ");
+foreach (Thing t in things)   // Dump the list to the console
+  Write("{t.X} ");
+WriteLine(Environment.NewLine);
+```
+
+The second version is somewhat more complex, but will allow for greater extensibility – this is shown for example purposes only.
+
+You generate a new class that supports the `IComparer<>` interface, which supports a Compare method with a signature similar to `CompareTo()` ie. `public int Compare( type arg1, type arg2 )` // where the type is the container type. Since the Compare is wrapped in a class instance, the `Compare()` method can be programmatically assigned to sort in multiple user defined ways.
+
+// MyCompareClass, to support int Collections : IComparer<int>
+// Using class so can implement dynamic sort selection by sort type selection member
+```csharp
+internal class MyCompareClass : IComparer<Thing>
+{
+  public enum ESortType { Ascending, Descending }; // possible sort options
+  public ESortType SortType { get; set; } //auto public property - NO public field instances
+  public MyCompareClass()
+  {
+    SortType = ESortType.Ascending; // default sort set to Ascending
+  }
+  // Invoked by Sort when MyCompareClass instance is passed
+  public int Compare(Thing arg1, Thing arg2) 
+  {
+    switch (SortType)                     // Determine sort type
+    {
+      case ESortType.Ascending:
+        return arg1.CompareTo(arg2);      // Leverage, just arrange order to suit
+      case ESortType.Descending:
+        return -1 * arg1.CompareTo(arg2);      // Same, Leverage, but reverse order
+      default:
+        break;
+    }
+    return 0; // unknown sort, unreachable
+  }
+}
+```
+Then to use it make an instance of your Comparer class and use it as an argument within the Sort() call, this following shows the benefit and possibilities of being able to programmatically switch sorts.
+```csharp
+MyCompareClass comp = new MyCompareClass();
+thangs.Sort(comp); // Sort it default sort of class, Ascending
+WriteLine("Union Ascending sort via MyCompareClass and IComparer<int> support");
+foreach (Thing t in thangs)   // Dump the list to the console
+  Write($"{t.X} ");
+WriteLine(Environment.NewLine);
+
+// Or change sort order programmatically, via SortType
+comp.SortType = MyCompareClass.ESortType.Descending;
+thangs.Sort(comp); // Sort it default sort of class, Ascending
+WriteLine("Union Descending sort via MyCompareClass and IComparer<int> support");
+foreach (Thing t in thangs)   // Dump the list to the console
+  Write("{t.X} ");
+WriteLine(Environment.NewLine);
+```
+           
