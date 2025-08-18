@@ -100,7 +100,7 @@ class CBox : `IComparable` // support comparisons for library use
   WriteLine($"{list[0]} - {list[1]} - {list[2]}");
 }
 ```
-`Comparison<>` and `IComparer<T>`
+# `Comparison<>`
 To allow alternate methods of sorting there are a several choices. Examination of the `Sort()` method indicates a number of overloads. One version accepts a `Comparison<>` and another a `IComparer<T>` interface.
 
 The simplest version is to supply a `Comparison<>` method
@@ -158,6 +158,7 @@ foreach (Thing t in things)   // Dump the list to the console
 WriteLine(Environment.NewLine);
 ```
 
+ # `IComparer<T>` - Example only
 The second version is somewhat more complex, but will allow for greater extensibility – this is shown for example purposes only.
 
 You generate a new class that supports the `IComparer<>` interface, which supports a Compare method with a signature similar to `CompareTo()` ie. `public int Compare( type arg1, type arg2 )` // where the type is the container type. Since the Compare is wrapped in a class instance, the `Compare()` method can be programmatically assigned to sort in multiple user defined ways.
