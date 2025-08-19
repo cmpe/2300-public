@@ -1,4 +1,9 @@
-# Project Specification: `Package` Class
+# Project Pack-o-matic
+
+This application is an organizer. It will be able to load a text file comprised of vector based shapes. Taking these shapes it will attempt to place the shapes in a container. The shapes must not overlap and attempt to maximize the number of shapes that fit.
+The placement algorithm is specified.
+
+# `Package` Class Specification: 
 
 ## Overview
 
