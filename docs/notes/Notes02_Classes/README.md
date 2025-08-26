@@ -62,6 +62,11 @@ apply to both data/fields and methods
   - may be initialized when declared or in constructor ( static / non-static )
   - once initialized, can not be altered, not even by members
   - alternative to const when value can not be determined at compile time ( ie. Random() )
+- `required`
+  - fields or properties
+  - forced to use an object initializer* the field marked `required` must be included/initialized in the parameters.
+  - this has limited use as the initializer parameters are set AFTER a default CTOR has initialized the object.
+  - use of a custom CTOR as well complicates the use, and will be deferred as a proper CTOR will satisfy the equivalent of a required field/property.
 - `volatile`
   - used when read/write ordering important
   - ensures reads are not cached, writes guaranteed to execute in relative order ( ** for threads )
@@ -107,7 +112,7 @@ class Test
 ### Instance Constructors ( CTOR )
 - instance ctor is invoked when an instance of the class is created via new()
 - instance ctors may be overloaded ( multiple versions differing only by their argument lists )
-- a ctor that accepts no arguments is known as a default ctor
+- a ctor that accepts no arguments is known as a default or parameterless ctor
   - if you fail to provide a default ctor, you get one free, but does nothing except initialize all members to their default values
   - if you provide a default ctor, you can initialize all members within the ctor body, even though the system ensures that all members have been initialized to their default values prior to the ctor body being executed.
 - if you add ANY ctor, the compiler does not supply the default any more, and if you want your custom ctor and a default you must supply both explicitly
@@ -149,13 +154,21 @@ public class Birdie
 // Now for users, accessing and using the new Birdie class
 private void foo()
 {
-  Birdie birde; // valid but currently a reference without an object, defaults to null
+  Birdie? birde; // valid but currently a reference without an object, defaults to null
   // Since a class is a reference type, must use new to actually allocate one
 
-  Birdie bird = new Birdie(8); // invokes user-defined ctor to make Birdie and
-  // our local reference bird now references the new object
+  Birdie bird = new Birdie(8);  // invokes user-defined ctor to make Birdie and
+                                // our local reference bird now references the new object
+  Birdie birdz = new Birdie( iSeeds : 8); // this time with parameter names
+                                         // our local reference bird now references the new object
 
   Birdie birdy = new Birdie(); // invokes default ctor, which leverages other ctor to make Birdie
+
+  // OR using Target-typed expressions when the target type is explicitly known
+  Birdie birdm = new(8); // same as Birdie(8); since bird type is explicitly known
+  Birdie birdn = new( iSeeds : 8 );
+  Birdie birdp = new(); // same as Birdie();
+
 
   Birdie[] ArrBirds = new Birdie[8]; // make array of Birdie references, NO actual Birdies are made,
                                   // just an array of references to them, we must populate manually
@@ -182,6 +195,35 @@ private void foo()
     b.Chirp(); // that will refer to each of our BirdList Birdie objects in turn
 }
 ```
+c#12 - `Primary Constructors`
+Primary Constructor Declaration: The parameters of the primary constructor are defined directly after the class or struct name. These parameters are in scope throughout the entire body of the class or struct, including field initializers and other members.
+``` c#
+    public class MyClass(int id, string name)
+    {
+        // 'id' and 'name' are accessible here
+        private readonly int _id = id; 
+        public string Name { get; } = name;
+    }
+```
+Primary Constructors and additional constructors
+
+If you define additional constructors (overloads) for the same class or struct, they must call the primary constructor using the : `this(...)` syntax, passing the necessary arguments to satisfy the primary constructor's parameters.
+``` c#
+    public class MyClass(int id, string name)
+    {
+        private readonly int _id = id; // id and name are valid with the declaration context, and used for initialization !
+        public string Name { get; } = name;
+
+        // Another constructor chaining to the primary constructor
+        public MyClass(string name) : this(0, name) // Calls the primary constructor with a default 'id' - so is it really an id anymore ?
+        {
+            // Additional logic specific to this constructor, if any
+        }
+    }
+```
+
+
+
 1. Building a class general conventions
 - members  whether static or non-static, all fields should be private, this implements the basic tenet of Object Oriented Programming, encapsulation
   - Encapsulation : the discipline of restricting access to internal data and methods except through an intentional public interface

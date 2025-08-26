@@ -180,3 +180,20 @@ public class Person
     }
 }
 ```
+
+Introduced in C# 9, the `init` accessor allows a property to be set only during object creation. This is useful for creating immutable objects, as once the object is initialized, the property cannot be changed. This provides a more controlled approach to immutability than simply using a get-only property.
+
+``` c#
+public class Person
+{
+    public string FirstName { get; init; }
+    public string LastName { get; init; }
+
+    public Person( string first, string last )
+    {
+      FirstName = first; // immutable now
+      LastName = last; // immutable now
+    }
+}
+```
+So, for basic classes `readonly` for fields ( no object initialization ), and `init` now for properties ( object initialization allowed )
