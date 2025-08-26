@@ -1,5 +1,39 @@
 ﻿
 # c#- Review
+
+## The "Big" change - nullable reference types.
+
+In c# v8, the nullable reference type was introduced and became the default.
+
+The goal of using this feature was to reduce the `NullReferenceException`, and minimize null checking code.
+
+This means that by default all reference types must be initialized. This is typically a good idea anyway, and will result in less code that is used to ensure a reference is not null. The "elvis"/null-conditional operator
+was meant to handle this in a simple easy to read fashion, but c# designers felt it did not go far enough. Please note that this is a COMPILE-TIME check, and will NOT prevent run-time null exceptions, rather a static
+analysis of the code is used to determine if a possible null may be assigned to a reference variable.
+
+As this is now the default, you will find WARNINGs will alert you to the (possible) explicit assignment of a null to a reference type.
+
+If you want to all nulls on certain references, you may make the reference nullable, just as you did with other value types.
+``` c#
+List<char> charList; // Warning: Uninitialized non-nullable variable
+List<char>? otherList; // otherList is nullable, so the default of null is allowed.
+otherList = null; // still ok, as otherList is nullable.
+
+// Same is true for our psuedo-reference type - string, which is now non-nullable
+string name = null; // Warning: Null assignment
+string greeting;    // Warning: Uninitialized non-nullable variable
+string? name = null; // This is now valid.
+if (name != null)
+{
+    Console.WriteLine(name.Length); // OK, null is checked
+}
+// Warning: Dereference of a potentially null reference
+Console.WriteLine(name.Length); // Yikes !
+Console.WriteLine(name?.Length ?? "name is null y'all"); // Yikes !
+```
+
+
+
 ## Precedence Table
    A reminder of the precedence table, which impacts the execution of our ever growing expression base syntax.
 
@@ -466,7 +500,8 @@ In summary, the null-conditional operator will:
 - Support delegate invocation in a thread safe manner
 - Is available as both a member operator (`?.`) and an index operator (`?[…]`)
 
-## Null Coalescing operator ??
+## Null Coalescing operator ?? and ??=
+[MS Docs](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/null-coalescing-operator)
 The null coalescing operator is similar to the conditional operator ( expr ? true : false ), but instead of checking the expression for true or false, the null coalescing operator explicitly tests the expression for null and substitutes the supplied expression.
 ``` c#
 string firstname = null;
@@ -478,6 +513,15 @@ This operator becomes more useful when combined with class objects and a chain o
 string NameDept = Corp?.Dept?.Name ?? "Unknown"; // null coalescing operator
 ```
 In this case if any step along the way evaluates to null, evaluation is discontinued with a null which is then coalesced into “Unknown”, Saving an extended, nested multi-step evaluation.
+
+Or with assignment ( convenient for defaults )
+``` c#
+List<Ball> balls = new List<Ball>();
+Ball? b = GetBallButMightBeNull(); // note, nullable Ball
+balls.Add( b ??= new Ball() ); // if b is null, assign b a new default Ball and add to the list
+b?.Move(); // technically b should NOT be null, but if it's nullable, it should be checked.
+```
+So maybe non-nullable references can save some code here, but data will dictate the use case. Null is sometimes unavoidable to designate an invalid object/condition.
 
 ## Delegates
 Delegates in the broadest sense can be thought of as function/method objects that may be dynamically populated with a callback method and invoked when desired.
