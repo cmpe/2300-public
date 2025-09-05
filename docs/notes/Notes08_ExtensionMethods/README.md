@@ -204,7 +204,7 @@ WriteLine(Environment.NewLine);
 // If order required, sort last, as both Union and Intersect do not maintain order
 ```
 
-## Extension Methods by Design
+## Extension Methods by Design - Extras - outside cmpe2300 requirements
 
 Extension methods are just that... methods that extend the functionality of a class.
 
