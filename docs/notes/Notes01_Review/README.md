@@ -458,6 +458,8 @@ Information retrieval for modal dialogs occur after the dialog has closed and th
 Information retrieval from modeless dialogs is “possible” the same way, the difference being that the spawning ( main ) form has no idea when the user has changed the form information or even if  the user has closed and/or hidden it. While polling can provide a feeble solution, in this case, the best practice is to use delegates.
 
 ## Null Conditional Operator ( The Elvis Operator )
+[MSDN Null-conditional operators](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/member-access-operators#null-conditional-operators--and-)
+
 To streamline null reference checking and/or copying code, the Null Conditional Operator was introduced. It uses the ? character either followed by a dot( . ) or indexer [ ].
 
 When the `?` is encountered in this context, the expression up to the ? is evaluated and if it is null the expression terminates evaluation, returning null if required, otherwise evaluation continues.
@@ -467,6 +469,13 @@ if( s != null ) // null check prior to access
   s = s.Substring(0, s.Length / 2);
 //OR implicit check
 s = s?.Substring(0, s.Length / 2);
+```
+``` c#
+int[]? arr = GetAnArrayOrNull(); // nullable array of int, it might or might not get an array
+if( arr != null ) // null check prior to access
+  int iVal = arr[i];
+//OR using elvis
+int? iVal = arr?[i]; // must allow for null return if array is null, iVal must be nullable
 ```
 While handy, the strength for our use lies in the null check and implicit atomicity of the invocation operation for delegates or events. Recall the pattern normally used for delegate/event firing :
 ``` c#
@@ -717,3 +726,74 @@ int one = 0b0001; // instead of hex 0x01;
 if (String.IsNullOrWhiteSpace(lastName))
   throw new ArgumentException(message: "Cannot be blank", paramName: nameof(lastName));
 ```
+## Index from end operator `^`
+
+[MSDN Index from end operator](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/member-access-operators#index-from-end-operator-)
+
+The `^` can be used on literals or variables in context of arrays or collections to define an index from the end of the sequence.
+
+So,
+`arr[0] == arr[^arr.Length]` - first element
+
+`arr[arr.Length-1] == arr[^1]` - last element - see potential for clearer, less error prone code
+
+Note that `^0` would represent one PAST the last element, allowed since usually end boundaries are exclusive not inclusive !
+
+Note that this operator can NOT be used with multidimensional arrays.
+
+## Range operator `..`
+[MSDN Range Operator](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/member-access-operators#range-operator-)
+
+The `..` operator can specify the inclusive start and exclusive end of a sequence. This is used primarily to extract a subset of elements from a sequence.
+If either start or end is omitted, start will be the first element, and end will be one-past the last element ( for exclusive use )
+- `a..` == `a..^0`
+- `..b` == `0..b`
+- `..` == `0..^0`
+
+``` c#
+int[] numbers = [0, 10, 20, 30, 40, 50];
+int middle = numbers.Length / 2;
+
+int[] rightHalf = numbers[middle..]; // start is middle, to the end
+Display(rightHalf);  // output: 30 40 50
+
+int[] leftHalf = numbers[..^middle]; // start is first, up to but not including middle
+Display(leftHalf);  // output: 0 10 20
+
+int[] all = numbers[..]; // all of them, as they are
+Display(all);  // output: 0 10 20 30 40 50
+
+void Display<T>(IEnumerable<T> xs) => Console.WriteLine(string.Join(" ", xs));
+```
+## Collection Expressions
+
+[MSDN Collection Expressions](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/collection-expressions)
+
+Collection expressions are a short form syntax to define a set of collection values, types are validated, but precludes redundant specificity.
+
+```c#
+int[] arr = [1,2,3,4];
+List<string> lst = ["Kirk", "to", "Enterprise"];
+readonly ImmutableArray<string> _months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+int num1 = 42;
+int num2 = 66;
+Queue<int> que = [num1, num2]; // variables are allowed, unless there is a compile-time requirement
+```
+The spread element `..` is identical to the Range operator, but used differently, but almost in the same context.
+
+The spread element will expand a provided collection into its inline values for use in initializing a collection. From the
+[MSDN link](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/collection-expressions#spread-element)
+```c#
+string[] vowels = ["a", "e", "i", "o", "u"];
+string[] consonants = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
+                       "n", "p", "q", "r", "s", "t", "v", "w", "x", "z"];
+string[] alphabet = [.. vowels, .. consonants, "y"]; // all the vowels + all the consonants + the string "y" in this order
+```
+## Deconstruct, Record and Patterns - as required by your instructor
+
+[MSDN Pattern Matching](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/patterns)
+
+[MSDN Deconstruct - If required](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/functional/deconstruct)
+
+[MSDN Records](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record)
+
