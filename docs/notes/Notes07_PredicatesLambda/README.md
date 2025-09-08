@@ -1,4 +1,12 @@
-GitHub Copilot: ```markdown
+- [Predicates](#predicates)
+    - [Example: Creating a System Type (int) Predicate for Use with `<int>` Collections](#example-creating-a-system-type-int-predicate-for-use-with-int-collections)
+    - [Example: Creating a User-Defined Type (Thing) Predicate for Use with `<Thing>` Collections](#example-creating-a-user-defined-type-thing-predicate-for-use-with-thing-collections)
+    - [Methods Requiring Predicates](#methods-requiring-predicates)
+  - [Anonymous Methods](#anonymous-methods)
+    - [Benefits of Anonymous Delegates](#benefits-of-anonymous-delegates)
+  - [Lambda Expressions](#lambda-expressions)
+    - [Examples](#examples)
+    - [Lambda Replacement of a `Comparison<>` Method](#lambda-replacement-of-a-comparison-method)
 # Predicates
 
 Predicates allow a method to be used to filter/restrict inclusion based on user-defined criteria. Put simply, a predicate will return a bool (true/false) that is determined by the state of the argument object. For example, a method accepts an object and returns true/false if it meets some criteria.

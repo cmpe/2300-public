@@ -1,3 +1,8 @@
+- [Equals – When Are Apples Not Apples](#equals--when-are-apples-not-apples)
+  - [Equals() - Class Instance Equivalence Comparisons](#equals---class-instance-equivalence-comparisons)
+    - [When used with value types (ints, floats, structs, or other value types), *value semantics* are used.](#when-used-with-value-types-ints-floats-structs-or-other-value-types-value-semantics-are-used)
+    - [When used with reference types (classes), *identity semantics* are used.](#when-used-with-reference-types-classes-identity-semantics-are-used)
+  - [Overloading operator==, operator!=](#overloading-operator-operator)
 # Equals – When Are Apples Not Apples
 
 ## Equals() - Class Instance Equivalence Comparisons

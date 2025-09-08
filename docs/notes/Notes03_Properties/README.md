@@ -1,3 +1,8 @@
+- [Properties](#properties)
+  - [Manual properties](#manual-properties)
+  - [Convention within the libraries is to favor properties over traditional get and set accessors.](#convention-within-the-libraries-is-to-favor-properties-over-traditional-get-and-set-accessors)
+  - [Automatic Properties](#automatic-properties)
+  - [New c# properties enhancements.](#new-c-properties-enhancements)
 # Properties
 
 1. Properties

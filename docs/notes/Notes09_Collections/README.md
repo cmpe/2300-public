@@ -1,3 +1,17 @@
+- [Collections ( sans List )](#collections--sans-list-)
+  - [Dictionary -- an associative container](#dictionary----an-associative-container)
+    - [`Add`](#add)
+  - [Predicates and `KeyValuePair`](#predicates-and-keyvaluepair)
+  - [Predicates and `KeyValuePair`](#predicates-and-keyvaluepair-1)
+  - [Implementation Considerations](#implementation-considerations)
+  - [Just for Fun](#just-for-fun)
+  - [Extension Methods and `Dictionary`](#extension-methods-and-dictionary)
+  - [`HashSet`](#hashset)
+  - [LinkedList](#linkedlist)
+  - [`Queue`](#queue)
+  - [Stack](#stack)
+  - [Concurrent Containers](#concurrent-containers)
+  - [Misc Collections](#misc-collections)
 # Collections ( sans List )
 
 ## Dictionary -- an associative container
@@ -749,3 +763,17 @@ operations.
 
 - `SortedDictionary`
 - `SortedList`
+- [Collections ( sans List )](#collections--sans-list-)
+  - [Dictionary -- an associative container](#dictionary----an-associative-container)
+    - [`Add`](#add)
+  - [Predicates and `KeyValuePair`](#predicates-and-keyvaluepair)
+  - [Predicates and `KeyValuePair`](#predicates-and-keyvaluepair-1)
+  - [Implementation Considerations](#implementation-considerations)
+  - [Just for Fun](#just-for-fun)
+  - [Extension Methods and `Dictionary`](#extension-methods-and-dictionary)
+  - [`HashSet`](#hashset)
+  - [LinkedList](#linkedlist)
+  - [`Queue`](#queue)
+  - [Stack](#stack)
+  - [Concurrent Containers](#concurrent-containers)
+  - [Misc Collections](#misc-collections)

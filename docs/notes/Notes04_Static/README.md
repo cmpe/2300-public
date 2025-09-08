@@ -1,3 +1,9 @@
+- [Static – Fields, Methods, and Properties](#static--fields-methods-and-properties)
+  - [Static – When Applied, Implicitly Implies “Instance Independent”](#static--when-applied-implicitly-implies-instance-independent)
+  - [Static Fields](#static-fields)
+  - [Static Methods](#static-methods)
+  - [Static Properties](#static-properties)
+  - [Static Constructors](#static-constructors)
 # Static – Fields, Methods, and Properties
 
 ## Static – When Applied, Implicitly Implies “Instance Independent”

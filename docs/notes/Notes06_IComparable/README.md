@@ -1,3 +1,6 @@
+- [`IComparable` – the interface](#icomparable--the-interface)
+- [`Comparison<>`](#comparison)
+- [`IComparer<T>` - Example only](#icomparert---example-only)
 # `IComparable` – the interface
 
 Being able to compare class instances is also a common desire. This most often occurs if we want to be able to sort our data. Sorted data is a requirement for many algorithms based on starting with a sorted dataset (like BinarySearch). Unlike `Equals()` there is NO default comparison operation available as a default. In order to implement basic comparison, we must involve ourselves in implementing an interface (much more on interfaces later). Fortunately, implementing the `IComparable` interface is straight forward and provides an excellent introduction to using and implementing interfaces.

@@ -1,4 +1,15 @@
-1.  # Inheritance {#inheritance-1}
+- [Inheritance](#inheritance)
+- [Basic Derivation](#basic-derivation)
+- [Inheritance with default constructors](#inheritance-with-default-constructors)
+- [Inheritance with custom constructors](#inheritance-with-custom-constructors)
+- [Method/Function Hiding](#methodfunction-hiding)
+- [Upcasting and What is it actually ?](#upcasting-and-what-is-it-actually-)
+- [Virtual Methods and Polymorphism](#virtual-methods-and-polymorphism)
+- [Abstract Classes](#abstract-classes)
+  - [What if the base class supports custom Equals() and the IComparable interface ?](#what-if-the-base-class-supports-custom-equals-and-the-icomparable-interface-)
+- [NVI - Non-virtual Interface Pattern](#nvi---non-virtual-interface-pattern)
+
+# Inheritance
 
 After Encapsulation, Inheritance is the 2^nd^ "Pillar" of OOPs.
 Inheritance allows construction of a "family" of classes where the
@@ -454,7 +465,7 @@ foreach (CShape shape in m_lShapes)
 The ability to maintain generic collections of base class objects will
 allow you to avoid parallel arrays and the like. This is a good thing.
 
-## Abstract Classes
+# Abstract Classes
 
 Sometimes, if not often, you will find that a base class is just a
 placeholder in the hierarchy. Consider the CShape base class, for
@@ -694,7 +705,7 @@ foreach (CShape shape in m_lShapes)
   Trace.WriteLine(string.Format("{0} : {1:f2}", shape.GetType().Name, shape.GetArea());
 ```
 
-## NVI - Non-virtual Interface Pattern
+# NVI - Non-virtual Interface Pattern
 
 The NVI pattern is closely related to the Template pattern. Resulting in
 a separation of interfaces into a user/client interface and a derivation

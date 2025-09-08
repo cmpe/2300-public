@@ -1,3 +1,14 @@
+- [Generic Extension Methods – Basic (Non-Predicate)](#generic-extension-methods--basic-non-predicate)
+  - [Common Standard Query Categories and Methods](#common-standard-query-categories-and-methods)
+  - [IEnumerable](#ienumerable)
+    - [Common Extension Methods](#common-extension-methods)
+  - [Deferred Execution](#deferred-execution)
+    - [Dealing with `IEnumerable` Return Collections](#dealing-with-ienumerable-return-collections)
+      - [Option 1: Use `IEnumerable` as a Collection](#option-1-use-ienumerable-as-a-collection)
+      - [Option 2: Use the Collection Constructor Overloads to Make a New List](#option-2-use-the-collection-constructor-overloads-to-make-a-new-list)
+      - [Option 3: Use One of the `ToXXX()` Helpers like `ToList()`](#option-3-use-one-of-the-toxxx-helpers-like-tolist)
+    - [Using Various Extension Methods with Previous Options](#using-various-extension-methods-with-previous-options)
+  - [Extension Methods by Design - Extras - outside cmpe2300 requirements](#extension-methods-by-design---extras---outside-cmpe2300-requirements)
 # Generic Extension Methods – Basic (Non-Predicate)
 
 Generic extension methods (methods that utilize `<>` in their declaration) that work without having to create predicates. It is important to note that all these methods do not modify the list or their contents; instead, they all return a new collection (`IEnumerable`) comprised of elements from the argument collections that fulfill the operation. These collections are not quite what they seem – more in deferred execution details to come.
