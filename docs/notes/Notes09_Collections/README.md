@@ -392,7 +392,7 @@ Console.WriteLine("Sum of values is " + dic.Aggregate(0, SumValues).ToString());
 // Sum of values is 33
 ```
 
-# `HashSet`
+## `HashSet`
 
 `HashSet` is a collection that stores unique elements and is optimized for fast lookups, additions, and deletions. Unlike List or LinkedList, HashSet is unordered and does not allow duplicate values. Internally, it uses a hash table to manage entries, which allows for O(1) average-time complexity for most operations (such as Add and Contains).
 
@@ -406,8 +406,8 @@ Key Characteristics:
 - No Indexing: Since it's unordered, there is no index-based access like a List or LinkedList.
 
 Unsupported List-Like Methods: Since a HashSet is not index-based, it lacks methods that rely on ordering or indexing:
-- No AddAt(), IndexOf(), Insert(), or Sort()
-- No RemoveAt() or RemoveRange() 
+- No `AddAt()`, `IndexOf()`, `Insert()`, or `Sort()`
+- No `RemoveAt()` or `RemoveRange()` 
 
 Instead, a `HashSet` focuses on fast membership tests and set-based operations.
 
@@ -484,7 +484,7 @@ the LinkedList collection.
 Replacements differ also in the use of the concept of a
 `LinkedListNode<>` which is often a return type or argument type,
 that acts as your "index" into the LinkedList -- ie. the objects in your
-list don't live at an [index], rather they exist as a node in the
+list don't live at an `[index]`, rather they exist as a node in the
 list
 
 The LinkedList has :
@@ -512,7 +512,7 @@ linkedlist.Last, value );`
 
 `LinkedList` supports many of the generic methods seen in the List section
 
-Some of the generic methods like : Distinct(), Intersect(), Union()
+Some of the generic methods like : `Distinct()`, `Intersect()`, `Union()`
 return an IEnumerable object BUT there is NOT a ToLinkedList()
 helper... ) so you must use the constructor version of creation:
 
@@ -569,11 +569,9 @@ foreach (int i in InterLink)
   Write($"{i},");
   WriteLine(Environment.NewLine);
 
-// While foreach() makes collection iteration easy, it's failing for LinkedList's is
-
-// that it will populate the "Value" member of each node into your foreach() value,
-
-// stripping the ability to access the entire node.
+// While foreach() makes collection iteration easy, it's failing for 
+// LinkedList's is that it will populate the "Value" member of each node into 
+// your foreach() value, stripping the ability to access the entire node.
 // We can iterate through the list via an alternate means : the LinkedListNode<> type
 
 // By accessing nodes directly, we can iterate through the list nodes directly,
