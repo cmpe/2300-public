@@ -831,6 +831,7 @@ string[] consonants = ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m",
 string[] alphabet = [.. vowels, .. consonants, "y"]; // all the vowels + all the consonants + the string "y" in this order
 ```
 ## Deconstruct, Record and Patterns - as required by your instructor
+[MSDN Switch enhancements](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/statements/selection-statements#the-switch-statement)
 
 [MSDN Pattern Matching](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/patterns)
 
