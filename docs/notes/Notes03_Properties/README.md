@@ -191,14 +191,22 @@ Introduced in C# 9, the `init` accessor allows a property to be set only during 
 ``` c#
 public class Person
 {
-    public string FirstName { get; init; }
-    public string LastName { get; init; }
+  public string FirstName { get; init; }
+  public string LastName { get; init; }
 
-    public Person( string first, string last )
-    {
-      FirstName = first; // immutable now
-      LastName = last; // immutable now
-    }
+  public Person()
+  {
+  }
+  public Person(string first, string last)
+  {
+    FirstName = first; // immutable now
+    LastName = last; // immutable now
+  }
 }
+// Then
+Person p = new() { FirstName = "Sven", LastName = "Galli" }; // object initializer use
+// or 
+Person p = new("Willy", "Nilly"); // CTOR use
+
 ```
 So, for basic classes `readonly` for fields ( no object initialization ), and `init` now for properties ( object initialization allowed )
