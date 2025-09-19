@@ -49,6 +49,8 @@ rectangle for use with `AddText` and the ID                                     
 
 The `Form` class is the main form for the Pack-o-matic application. It provides a graphical interface for loading, displaying, and managing geometric packages on a canvas. Users can drag and drop package files, randomize package placement, fill the canvas by grid, and clear loaded packages using keyboard shortcuts.
 
+Files that are loaded into _packages which stays intact until a new file is loaded. The clear operation ONLY clears the _loadable collection and clears the CDrawer. The Random and Grid operations attempt to accumulate packages into _loadable as specified. Random and Grid do NOT clear _loadable, they both attempt to accumulate additional packages.
+
 ---
 
 ## Members
@@ -86,6 +88,7 @@ The `Form` class is the main form for the Pack-o-matic application. It provides 
   - Users can drag and drop a single file containing package definitions onto the form.
   - The `Form1_DragDrop` method reads the file, parses each line into a `Package`, and populates the `_packages` list and `_queue`.
   - The canvas and status list are updated to reflect the loaded packages.
+    - Format `Load:FileName.csv: Package N to M loaded` - see image.
   - All loaded packages will be displayed in the drawer, spaced to accommodate available packages - NO collision detection should be implemented - all packages should be shown.
 
 - **Keyboard Shortcuts:**
