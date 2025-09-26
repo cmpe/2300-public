@@ -31,7 +31,7 @@ Also like `Equals()`, providing support through `IComparable` does NOT mean you 
 In the more than you need to know right not category: Generic collections add an additional level of complexity when comparison is required, by default they implement comparison via a comparer object which has the default functionality of interrogating the underlying type to see if it implements a `IComparable`<T> interface (a generic one), if not it then looks for an implementation of `IComparable`. This fortunately works in our favor and the functionality we desire is the ultimate result. * This is also implemented for equality through IEquatable<T> which luckily defaults to our `Equals()` override.
 
 ```csharp
-class CBox : `IComparable` // support comparisons for library use
+class CBox : IComparable // support comparisons for library use
 {
   private int Width;
   private int Height;
