@@ -49,27 +49,18 @@ class CBox : `IComparable` // support comparisons for library use
     // Determine Value `Equals()`
     return (Width == arg.Width && Height == arg.Height);
   }
-  // Optional specialized version, saves a cast/conversion
-  public bool Equals(CBox cbox)
-  {
-    // null ? return false
-    if (cbox is null) return false; 
-
-    // or just Width
-    return (Width == cbox.Width && Height == cbox.Height);
-  }
   public override int GetHashCode()
   {
     return 1; // ok, not used in a Hashtable or related context
   }
-  // IComparible demands that you supply : int CompareTo( object ) method,
+  // IComparable demands that you supply : int CompareTo( object ) method,
   //   - no assumptions as to argument type, must be "safe" but you are expected
   //     to throw an exception for bad types
   public int CompareTo(object arg)
   {
     if (!(arg is CBox argBox ))
       throw new ArgumentException($"CBox:CompareTo:{nameof(arg)} - Not a valid CBox");
-    //return (Width * Height) - (tmp.Width * tmp.Height);
+    // return (Width * Height) - (tmp.Width * tmp.Height); - valid, but not best implementation
     // Use area for its "magnitude", this will vary Or Let int.CompareTo() do the work !
     return (Width * Height).CompareTo(argBox.Width * argBox.Height); 
   }
@@ -81,7 +72,7 @@ class CBox : `IComparable` // support comparisons for library use
 ```
 
 ```csharp
-{ // CBox - Comparible<CBox> supporting interface example
+{ // CBox - Comparable<CBox> supporting interface example
   // 2 different objects, same field values
   CBox a = new CBox(2, 2);
   CBox b = new CBox(1, 1);
@@ -103,6 +94,26 @@ class CBox : `IComparable` // support comparisons for library use
   WriteLine($"{list[0]} - {list[1]} - {list[2]}");
 }
 ```
+What if our requirement is for a 2-tier ordering ( or more ) ? As in SQL parlance, we want sub-sorting.
+
+An example for our CBox example is to not sort just by area, rather order the CBoxes by Height *within* Length. Read this as Ascending Width, but if the Width is same, then Height is considered
+as the 2nd tier order comparision. Algorithmically, then if Widths differ, the result is determined, BUT, if the Widths are the same, we must return based on Height.
+```csharp
+  public int CompareTo(object arg)
+  {
+    // Same sanity check required
+    if (!(arg is CBox argBox ))
+      throw new ArgumentException($"CBox:CompareTo:{nameof(arg)} - Not a valid CBox");
+
+    // Check each successive tier, Width first
+    int iReturn = Width.CompareTo( argBox.Width ); // Compare Widths
+    if( iReturn == 0 ) // Widths are the same ! Must Check next tier, Height
+      iReturn = Height.CompareTo( argBox.Height ); // Compare Height
+    // iReturn should hold appropriate tier outcome
+    return iReturn;
+  }
+```
+
 # `Comparison<>`
 To allow alternate methods of sorting there are a several choices. Examination of the `Sort()` method indicates a number of overloads. One version accepts a `Comparison<>` and another a `IComparer<T>` interface.
 
