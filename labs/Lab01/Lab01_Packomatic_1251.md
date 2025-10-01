@@ -22,8 +22,7 @@ The `Package` class represents a geometric package defined by a polygon (list of
 | `_id`                 | `int`               | private     | Unique identifier for the package.                                          |
 | `ID`                  | `int`               | public (read-only) | Exposes the package's unique identifier.                              |
 | `_color`              | `Color`             | public (auto-property) | The color used to draw the package.                                 |
-| `Location`            | `Point`             | public (auto-property) | The center point or location of the package on the canvas. The points
-for this package are relative to this location when rendered.                  |
+| `Location`            | `Point`             | public (auto-property) | The center point or location of the package on the canvas. The points for this package are relative to this location when rendered.   |               |
 
 ---
 
@@ -34,8 +33,7 @@ for this package are relative to this location when rendered.                  |
 | **Constructor**               | `Package(string packageString)`                                                | Parses a string to initialize the package's ID, color, and polygon points. Throws exceptions on bad input or parsing errors.  |
 | `Intersects`                  | returns a bool, accepting a `Package` instance                                         | Checks if this package's polygon intersects with another package's polygon. This method will leverage `LineIntersects()`                                 |
 | `LineIntersects`     | `static` helper, returns a bool accepting LineAStart, LineAEnd, LineBStart, LineBEnd`     | Determines if two line segments intersect. Used internally for collision and containment checks. Citation required.           |
-| `Draw`                        | returns nothing, accepts a `CDrawer`                                              | Draws the package's polygon and its ID onto the provided canvas. Use AddLine() to connect all the package points to form the polygon. Use the location to define a `Rectangle` of size 1, then `Inflate` it to size 30, creating the centered
-rectangle for use with `AddText` and the ID                                           |
+| `Draw`                        | returns nothing, accepts a `CDrawer`                                              | Draws the package's polygon and its ID onto the provided canvas. Use AddLine() to connect all the package points to form the polygon. Use the location to define a `Rectangle` of size 1, then `Inflate` it to size 30, creating the centered rectangle for use with `AddText` and the ID                                           |
 | `NewLocation`                 | returns nothing, accepts a `CDrawer`                                       | Randomly assigns a new location to the package within the canvas bounds, ensuring it remains entirely in bounds of the `CDrawer`. Leverage `InBounds()`.     |
 | `Inbounds`                    | returns a bool, accepts a `CDrawer`                                          | return true if the package's polygon is entirely within the canvas boundaries.                                   |
 | `ContainsPackage`                    | returns a bool, accepting a `Package` instance           | return true if this package contains any part of another package's polygon using radial line intersection tests using the invoking Package. This method creates a collection of radial lines from the center to each vertex, if any part of another package's polygon lines intersect these radial lines, then the argument package must be inside the invoking package.|
