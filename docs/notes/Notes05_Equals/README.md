@@ -58,7 +58,7 @@ class Box
     // using is tests for both null and correct object
     
     // null? or not a Box? return false
-    if (!(obj is Box arg)) return false; 
+    if ( obj is not Box arg) return false; 
     
     // Determine Value Eq
     return (Width == arg.Width && Height == arg.Height); 

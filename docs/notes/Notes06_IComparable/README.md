@@ -44,7 +44,7 @@ class CBox : IComparable // support comparisons for library use
   public override bool Equals(object obj)
   {
     // not a CBox ? return false
-    if (!(obj is CBox arg)) return false;
+    if ( obj is not CBox arg ) return false;
 
     // Determine Value `Equals()`
     return (Width == arg.Width && Height == arg.Height);
@@ -58,7 +58,7 @@ class CBox : IComparable // support comparisons for library use
   //     to throw an exception for bad types
   public int CompareTo(object arg)
   {
-    if (!(arg is CBox argBox ))
+    if ( arg is not CBox argBox )
       throw new ArgumentException($"CBox:CompareTo:{nameof(arg)} - Not a valid CBox");
     // return (Width * Height) - (tmp.Width * tmp.Height); - valid, but not best implementation
     // Use area for its "magnitude", this will vary Or Let int.CompareTo() do the work !
@@ -102,7 +102,7 @@ as the 2nd tier order comparision. Algorithmically, then if Widths differ, the r
   public int CompareTo(object arg)
   {
     // Same sanity check required
-    if (!(arg is CBox argBox ))
+    if ( arg is not CBox argBox )
       throw new ArgumentException($"CBox:CompareTo:{nameof(arg)} - Not a valid CBox");
 
     // Check each successive tier, Width first
@@ -151,9 +151,9 @@ internal class Thing : IComparable // recall internal is public WITHIN this asse
   // Note : the necessary null tests, note negation of normal singular null tests
   internal static int MyThingCompare(Thing arg1, Thing arg2) // 2 arguments here, no "this" 
   {
-    if (arg1 == null && arg2 == null) return 0; // same, both null
-    if (arg1 == null) return -1; // ascending, null is "less" than anything, so arg1 is LESS
-    if (arg2 == null) return 1; // ascending, null is "less" than anything, so arg1 is MORE
+    if (arg1 is null && arg2 is null) return 0; // same, both null
+    if (arg1 is null) return -1; // ascending, null is "less" than anything, so arg1 is LESS
+    if (arg2 is null) return 1; // ascending, null is "less" than anything, so arg1 is MORE
     // Both not null here
     return arg1.X.CompareTo(arg2.X); // normal sort of int
   }

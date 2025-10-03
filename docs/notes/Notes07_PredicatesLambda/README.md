@@ -58,7 +58,7 @@ class Thing : IComparable
     // Predicate<Thing> for use with List() methods using criteria
     public static bool IsEven(Thing arg)
     {
-        if (arg == null) return false; // null is not even
+        if (arg is null) return false; // null is not even
         return (arg.X % 2) == 0; // evaluates to true if even
     }
 }
