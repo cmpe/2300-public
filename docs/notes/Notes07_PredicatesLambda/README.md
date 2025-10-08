@@ -5,8 +5,11 @@
   - [Anonymous Methods](#anonymous-methods)
     - [Benefits of Anonymous Delegates](#benefits-of-anonymous-delegates)
   - [Lambda Expressions](#lambda-expressions)
+    - [Lambdas replacement of Predicate\<\> delegate/methods](#lambdas-replacement-of-predicate-delegatemethods)
     - [Examples](#examples)
     - [Lambda Replacement of a `Comparison<>` Method](#lambda-replacement-of-a-comparison-method)
+    - [Lambda Replacement of a `Action<>` delegates/method](#lambda-replacement-of-a-action-delegatesmethod)
+    - [Lambda replacement of a Func\<\> delegate/method](#lambda-replacement-of-a-func-delegatemethod)
 # Predicates
 
 Predicates allow a method to be used to filter/restrict inclusion based on user-defined criteria. Put simply, a predicate will return a bool (true/false) that is determined by the state of the argument object. For example, a method accepts an object and returns true/false if it meets some criteria.
@@ -146,11 +149,7 @@ x => x < 0  // x is the identifier populated by the collection iteration, x < 0 
 
 The compiler uses the context to deduce the types involved, and at its most basic use, doesn't require any explicit argument types or return statement.
 
-To use lambdas in methods where multiple arguments are required, like `Comparison<>`, wrap the argument identifiers in parentheses:
-```csharp
-(left, right) => left.CompareTo(right)
-```
-
+### Lambdas replacement of Predicate<> delegate/methods
 ### Examples
 
 ```csharp
@@ -186,6 +185,14 @@ iCount = t.FindAll(z => { int iNewB = iBoundary * 2; return z.X < iNewB; }).Coun
 
 ### Lambda Replacement of a `Comparison<>` Method
 
+Comparison<> delegates define a function that returns an int, accepting two arguments, where the integer return conforms
+to the -1/0/1 convention of smaller/equal/greater.
+
+To use lambdas in methods where multiple arguments are required, like `Comparison<>`, wrap the argument identifiers in parentheses:
+```csharp
+(left, right) => left.CompareTo(right)
+```
+
 ```csharp
 // int Comparison<type>(type arg1, type arg2)
 // Wrap your arguments in () - as if you were going to explicitly specify the type
@@ -199,6 +206,44 @@ t.Sort((left, right) =>
     return iLeft.CompareTo(iRight) * -1;
 }); // provide a scope for the lambda, remember return REQUIRED here
 ```
+### Lambda Replacement of a `Action<>` delegates/method
+
+`Action<>` delegates are function templates for functions that always return nothing, accepting none or more arguments.
+
+If no arguments are required, the lambda will start with empty `()` to indicate a placeholder.
+
+No extension methods require an Action<> delegate, but can of some use when dealing with `Form.Invoke()` calls. See the
+example at the end of these notes, providing an example of their use in avoid cross-thread context violations.
+
+```csharp
+// the ForEach() extension method requires an Action<> delegate, with a single argument of the collection type
+List<Thing> list = GetMeSomeThings();
+
+// ForEach() will apply the Action delegate to each element of the collection
+list.ForEach( (thing) => thing.Name += "..." ); // iterate and append "..." to each Thing's Name in the collection
+// Note that while each thing can be assessed, and internal state changed, you can't replace thing in the collection
+
+
+```
+
+### Lambda replacement of a Func<> delegate/method
+`Func<>` delegates are function templates for functions that return a type/value, accepting none or more arguments. Here the
+only difference from `Action<>` delegates is that `Func<>` delegates can return a value.
+
+A `Predicate` is just specialized form of `Func`, in that it accepts a single argument of the collection type and returns a bool.
+
+So where you might use a predicate on a list of ints, the func equivalent would just be `Func<int, bool>`
+
+This can be helpful for other cases where a different return type is required. For example the Sum() extension method obviously
+doesn't know about Things, but a proper Func delegate via a lambda can return an appropriate numeric to be summed.
+
+```csharp
+List<Thing> list = GetMeSomeThings();
+
+int SumOf = list.Sum( thing => thing.X ); // the lambda returns each Things X property which Sum will accumulate
+// This works for Min, Max and Avg numeric accumulators as well
+```
+
 
 We will consider Predicates and Lambdas again when we visit associative containers.
 
