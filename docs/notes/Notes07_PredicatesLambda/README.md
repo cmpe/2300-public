@@ -10,6 +10,7 @@
     - [Lambda Replacement of a `Comparison<>` Method](#lambda-replacement-of-a-comparison-method)
     - [Lambda Replacement of a `Action<>` delegates/method](#lambda-replacement-of-a-action-delegatesmethod)
     - [Lambda replacement of a Func\<\> delegate/method](#lambda-replacement-of-a-func-delegatemethod)
+    - [Lambdas and Action used with Form.Invoke()](#lambdas-and-action-used-with-forminvoke)
 # Predicates
 
 Predicates allow a method to be used to filter/restrict inclusion based on user-defined criteria. Put simply, a predicate will return a bool (true/false) that is determined by the state of the argument object. For example, a method accepts an object and returns true/false if it meets some criteria.
@@ -212,7 +213,7 @@ t.Sort((left, right) =>
 
 If no arguments are required, the lambda will start with empty `()` to indicate a placeholder.
 
-No extension methods require an Action<> delegate, but can of some use when dealing with `Form.Invoke()` calls. See the
+Few extension methods require an Action<> delegate, but Action can of some use when dealing with `Form.Invoke()` calls. See the
 example at the end of these notes, providing an example of their use in avoid cross-thread context violations.
 
 ```csharp
@@ -244,6 +245,7 @@ int SumOf = list.Sum( thing => thing.X ); // the lambda returns each Things X pr
 // This works for Min, Max and Avg numeric accumulators as well
 ```
 
+### Lambdas and Action used with Form.Invoke()
 
 We will consider Predicates and Lambdas again when we visit associative containers.
 
