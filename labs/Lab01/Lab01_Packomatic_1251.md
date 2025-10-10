@@ -109,27 +109,6 @@ Create the necessary processing functions to be called from your Keyhandler to l
 
 ---
 
-### Sample listbox status format.
-Loading :
-`Load:file_name: Package id_start to id_end loaded`
-
-Clear : 
-`Loadable cleared, Queue reloaded`
-
-Last Inserted status for every load : `Loaded NN packages` where NN is the TOTAL loadable in the collection, not this pass.
-
-R - Random - successfully loaded _numRequired :
-`Pass loaded NN/_numRequired packages`
-
-R - Random - NOT successfully loaded _numRequired :
-```
-Pass loaded NN/_numRequired packages`
-Failed to load current package after MaxTries tries
-```
-
-
-```
-
 
 ## User Interaction
 
@@ -156,6 +135,7 @@ Notes :
 Hints : 
 - To set the listbox to scroll and make the new addition visible : `myListBox.TopIndex = myListBox.Items.Count - 1;`
 
+### Sample output
 ```
 Load:Loadable_74_100.csv: Package 1 to 100 loaded
 Clear:Loadable cleared, Queue reloaded
