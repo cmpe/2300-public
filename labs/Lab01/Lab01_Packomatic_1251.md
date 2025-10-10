@@ -89,7 +89,7 @@ You may include UI components to alter the numRequired and MaxTries values at ru
   - The `Form1_DragDrop` method reads the file, parses each line into a `Package`, and populates the `_packages` list and `_queue`.
   - The canvas and status list are updated to reflect the loaded packages.
     - Format `Load:FileName.csv: Package N to M loaded` - see image.
-  - All loaded packages will be displayed in the drawer, spaced to accommodate available packages - NO collision detection should be implemented - all packages should be shown.
+  - All loaded packages will be displayed in the drawer, spaced to accommodate available packages. For the number of packages to be shown, determine a grid layout to show them all, spaced our as much as possible. They may be partially out of bounds when counts become large. This is similar to the grid placement - NO collision detection should be implemented - all packages should be shown.
 
 Create the necessary processing functions to be called from your Keyhandler to logically break down the problem. Do not do all the processing your handler.
 
