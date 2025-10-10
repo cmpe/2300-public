@@ -60,11 +60,13 @@ Files that are loaded into _packages which stays intact until a new file is load
 | `_packages`    | `List<Package>`         | private        | Stores all packages loaded from a file.                                     |
 | `_loadable`    | `List<Package>`         | private        | Stores packages that have been successfully placed on the canvas.           |
 | `_queue`       | `Queue<Package>`        | private        | Queue of packages waiting to be placed on the canvas.                       |
-| `_numRequired` | `int`                   | private        | Number of packages to attempt to load in random placement mode.             |
-| `iMaxTries`    | `int`                   | private        | Maximum number of attempts to place a package without overlap or out-of-bounds. |
-| `Status`       | `ListBox` or `Datagridview` | UI | All status messages will be added to the top |
+| `_numRequired` | `int`                   | private        | Number of packages to attempt to load in random placement mode. Initialize to 20            |
+| `iMaxTries`    | `int`                   | private        | Maximum number of attempts to place a package without overlap or out-of-bounds. Initialize to 10000 |
+| `Status`       | `ListBox` or `Datagridview` | UI | All status messages will be added to the Bottom, and set that item to be visible |
 
 ---
+
+You may include UI components to alter the numRequired and MaxTries values at run-time to better test your lab without restarting with modified values.
 
 ## Methods
 
@@ -89,21 +91,45 @@ Files that are loaded into _packages which stays intact until a new file is load
     - Format `Load:FileName.csv: Package N to M loaded` - see image.
   - All loaded packages will be displayed in the drawer, spaced to accommodate available packages - NO collision detection should be implemented - all packages should be shown.
 
+Create the necessary processing functions to be called from your Keyhandler to logically break down the problem. Do not do all the processing your handler.
+
 - **Keyboard Shortcuts:**
   - **C (Clear):**  
     Clears the `_loadable` list, resets the canvas, and reloads the `_queue` from `_packages`.
   - **R (Randomize):**  
-    From the queue, it will attempts to randomly place up to `_numRequired` packages on the canvas without overlap or containment, using up to `iMaxTries` attempts per package. Successfully placed packages are added to `_loadable` and shown.
+    From the queue, it will attempts to randomly place up to `_numRequired` packages on the canvas without overlap or containment, using up to `iMaxTries` attempts for each package. Stop when the current package used up iMaxTries. Successfully placed packages are added to `_loadable` and shown. See listbox output sample below.
   - **G (Grid Fill):**  
-    Creating a grid of points ( 100x100 ) within the `CDrawer`, it will attempt to place each package from the queue at all grid points across the canvas, checking for valid placement (no overlap, containment, or out-of-bounds). Successfully placed packages are added to `_loadable` and shown.
+    Creating a grid of points ( 100x100 ) within the `CDrawer`, it will attempt to place each package from the queue at all grid points across the canvas, checking for valid placement (no overlap, containment, or out-of-bounds). Stop when the current package has exhausted all grid spots and can't be placed. Successfully placed packages are added to `_loadable` and shown. See listbox output sample below.
 
 - **Status Updates:**
-  - The status list (`Status`) is updated throughout to inform the user of actions taken, errors, and results.
+  - The status list (`Status`) is updated throughout to inform the user of actions taken, errors, and results. See listbox output sample below.
 
 - **Canvas Rendering:**
   - After any change to the loadable packages, the canvas is cleared and all loadable packages are redrawn.
 
 ---
+
+### Sample listbox status format.
+Loading :
+`Load:file_name: Package id_start to id_end loaded`
+
+Clear : 
+`Loadable cleared, Queue reloaded`
+
+Last Inserted status for every load : `Loaded NN packages` where NN is the TOTAL loadable in the collection, not this pass.
+
+R - Random - successfully loaded _numRequired :
+`Pass loaded NN/_numRequired packages`
+
+R - Random - NOT successfully loaded _numRequired :
+```
+Pass loaded NN/_numRequired packages`
+Failed to load current package after MaxTries tries
+```
+
+
+```
+
 
 ## User Interaction
 
@@ -126,3 +152,41 @@ The lab may be completed with partial compliance for the marks indicated below :
 
 Notes : 
 - Any rubric completion requires proper error processing, status output and output must be complete for that rubric.
+
+Hints : 
+- To set the listbox to scroll and make the new addition visible : `myListBox.TopIndex = myListBox.Items.Count - 1;`
+
+```
+Load:Loadable_74_100.csv: Package 1 to 100 loaded
+Clear:Loadable cleared, Queue reloaded
+Random Load Start: 1:01 PM
+Pass loaded 20/20 packages
+Random Load End: 1:01 PM
+Loaded 20 packages
+Random Load Start: 1:01 PM
+Failed to load current package after 10000 tries
+Pass loaded 2/20 packages
+Random Load End: 1:01 PM
+Loaded 22 packages
+Random Load Start: 1:01 PM
+Failed to load current package after 10000 tries
+Pass loaded 12/20 packages
+Random Load End: 1:01 PM
+Loaded 34 packages
+Random Load Start: 1:01 PM
+Failed to load current package after 10000 tries
+Pass loaded 0/20 packages
+Random Load End: 1:01 PM
+Loaded 34 packages
+Random Load Start: 1:01 PM
+Failed to load current package after 10000 tries
+Pass loaded 0/20 packages
+Random Load End: 1:01 PM
+Loaded 34 packages
+Clear:Loadable cleared, Queue reloaded
+Grid Load Start: 1:01 PM
+Pass loaded 46 packages
+Grid Load End: 1:01 PM
+Loaded 46 packages
+Load:Loadable_25_40.csv: Package 11 to 50 loaded
+```
