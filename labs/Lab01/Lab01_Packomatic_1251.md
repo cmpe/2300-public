@@ -173,8 +173,9 @@ Loaded 46 packages
 Load:Loadable_25_40.csv: Package 11 to 50 loaded
 ```
 
-More captures after various operations. Most start with clearing the CDrawer and reloading the package queue.
+More captures after various operations. Most start with clearing the CDrawer and reloading the package
 
+![Lab01_01](Lab01_01a.png)
 ![Lab01_01](Lab01_02.png)
 ![Lab01_01](Lab01_03.png)
 ![Lab01_01](Lab01_04.png)
