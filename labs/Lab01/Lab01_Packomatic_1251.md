@@ -11,6 +11,8 @@ The placement algorithm is specified.
 
 The `Package` class represents a geometric package defined by a polygon (list of points), a unique identifier, and a color. It provides functionality for drawing, collision detection, containment, and random placement within a graphical canvas.
 
+See the end of this specification for more image captures.
+
 ---
 
 ## Members
@@ -170,3 +172,10 @@ Grid Load End: 1:01 PM
 Loaded 46 packages
 Load:Loadable_25_40.csv: Package 11 to 50 loaded
 ```
+
+More captures after various operations. Most start with clearing the CDrawer and reloading the package queue.
+
+![Lab01_01](Lab01_02.png)
+![Lab01_01](Lab01_03.png)
+![Lab01_01](Lab01_04.png)
+![Lab01_01](Lab01_05.png)
