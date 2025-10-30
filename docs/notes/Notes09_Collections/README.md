@@ -1,5 +1,6 @@
 - [Collections ( sans List )](#collections--sans-list-)
   - [Dictionary -- an associative container](#dictionary----an-associative-container)
+    - [Common Functions](#common-functions)
     - [`Add`](#add)
   - [Predicates and `KeyValuePair`](#predicates-and-keyvaluepair)
   - [Predicates and `KeyValuePair`](#predicates-and-keyvaluepair-1)
@@ -45,6 +46,22 @@ entry already exists, it is returned, otherwise if the key does not
 currently reside in the collection, an KeyNotFoundException is thrown.
  Be careful here.
 
+### Common Functions
+
+| Member Name | Description | 
+| :--- | :--- |
+| `Add(TKey key, TValue value)` | Adds the specified key and value to the dictionary. Throws an exception if the key already exists. | 
+| `dictionary[key] = value` | Adds a new key-value pair, or updates the value if the key already exists (used as a setter). | 
+| `dictionary[key]` | Gets the value associated with the specified key. **Throws `KeyNotFoundException` if the key does not exist** (used as a getter). | 
+| `TryGetValue(TKey key, out TValue value)` | Safely tries to get the value associated with the specified key. Returns `true` if the key is found; otherwise, returns `false`. | 
+| `Keys` | Gets a collection containing all the keys in the dictionary. | 
+| `Values` | Gets a collection containing all the values in the dictionary. | 
+| `ContainsKey(TKey key)` | Determines whether the dictionary contains the specified key. | 
+| `ContainsValue(TValue value)` | Determines whether the dictionary contains the specified value. | 
+| `Count` | Gets the total number of key/value pairs contained in the dictionary. | 
+| `Remove(TKey key)` | Removes the value with the specified key from the dictionary. Returns `true` if the removal was successful; otherwise, `false`. | 
+| `Clear()` | Removes all keys and values from the dictionary, resetting it to an empty state. |
+
 ### `Add`
 
 There are multiple ways to add elements to a dictionary. The most
@@ -59,8 +76,7 @@ double>();
 dic.Add("Wombats", 4.99); // key/value pair : but Key ("Wombats") must not exist or exception thrown
 
 foreach (KeyValuePair<string, double> kvp in dic) // enumerate through using KeyValuePair
-
-WriteLine($"{kvp.Key} cost ${kvp.Value.ToString("f2")} each.");
+  WriteLine($"{kvp.Key} cost ${kvp.Value.ToString("f2")} each.");
 
 //Wombats cost $4.99 each.
 ```
@@ -125,8 +141,8 @@ skeys.Sort();
 foreach (int i in skeys)
   WriteLine("Key : " + i + ", Value : " + dic[i].ToString());
 
-// Or use the Keys collection as enumerable, we can't Sort() in this version
-foreach (int i in dic.Keys)
+// Or use the Keys collection as enumerable, we can't Sort() in this version, but OrderBy
+foreach (int i in dic.Keys.OrderBy( k => k ))
   WriteLine("Key : " + i + ", Value : " + dic[i].ToString());
 
 // Key : 0, Value : 16
