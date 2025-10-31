@@ -145,6 +145,10 @@ foreach (int i in skeys)
 foreach (int i in dic.Keys.OrderBy( k => k ))
   WriteLine("Key : " + i + ", Value : " + dic[i].ToString());
 
+// Or KeyValuePair with OrderBy
+foreach (KeyValuePair<int,CInt> kvp in dic.OrderBy( kv => kv.Key ))
+  WriteLine("Key : " + kvp.Key + ", Value : " + kvp.Value.ToString());
+
 // Key : 0, Value : 16
 // Key : 1, Value : 94
 // Key : 2, Value : 32
@@ -216,8 +220,6 @@ Console.WriteLine("Valid retrieve of Key=eight : {0}", sDict["eight"]);
 
 //int iExc = sDict["ten"]; // Throws a KeyNotFoundException! not same as write
 
-//WriteLine("Exception if invalid key = 10 : {0}", sDict[10]); // Get with invalid key will throw
-
 if (sDict.ContainsKey("four"))
   Console.WriteLine("Key = 'four' exists, Value = {0}", sDict["four"]); // exception safe checked
 
@@ -226,8 +228,7 @@ if (sDict.ContainsValue(8))
 
 // Get Value without exception
 if (sDict.TryGetValue("four", out int iValue)) // returns true if Key "four" exists, iValue populated
-
-Console.WriteLine("Found key = 'four' with value : {0}", iValue);
+  Console.WriteLine("Found key = 'four' with value : {0}", iValue);
 
 // Just using keys
 foreach (string s in sDict.Keys)
@@ -250,10 +251,6 @@ foreach (KeyValuePair<string,int> p in sDict)
 `Equals()` ( or other equality check ) is used to determine if an existing
 ( duplicate ) key exists
 ```c#
-// Uses GetHashCode() for object placement in collection,
-// but uses Equals() ( or other equality check ) to determine
-// if duplicate keys are present
-
 Dictionary<Thing,int> d = new Dictionary<Thing,int>(); // Dictionary of Things mapped to ints
 d.Add(new Thing(1), 1);
 d.Add(new Thing(2), 1);
@@ -293,8 +290,10 @@ d.Add(new Thing(5), 31);
 d.Add(new Thing(6), 32);
 Console.WriteLine("Lambda for 'odd' keys");
 
-// grab entries for Key Things with ODD X values
+// dictionary extension predicates will use an iterator of KeyValuePair<> of the dictionary type.
+// This provides the flexibility to access both Key and Value objects
 
+// grab entries for Key Things with ODD X values
 foreach (KeyValuePair<Thing, int> p in d.Where( entry => entry.Key.X % 2 == 1))
   Console.WriteLine("Key = {0} Value = {1}", p.Key.X, p.Value);
 
@@ -314,15 +313,23 @@ Console.WriteLine("Key = {0} Value = {1}", p.Key.X, p.Value);
 // Key = 4 Value = 22
 // Key = 5 Value = 31
 // Key = 6 Value = 32
+```
+### ToDictionary()
+```csharp
+// Given a List<Thing> as a starting collection
+List<Thing> things = new();
 
-// Create a Dictionary<int,Thing>() by selecting key with lambda as X member ( int )
+// Key Selector, resolves to int, so resulting dictionary Dictionary<int,Thing>
+Dictionary<int,Thing> tmp = things.ToDictionary(thing => thing.X); 
 
-Dictionary<int,Thing> tmp = l.ToDictionary(thing => thing.X);
+// Key Selector and Value selector, resolves to Thing and double
+Dictionary<Thing, double> tmp = things.ToDictionary(thing => thing, thing => thing.X * 1.0);
 
-// Create a Dictionary<Thing,double>() by selecting key and value,
-// here key is the Thing, value is X member  double
-
-Dictionary<Thing, double> td = l.ToDictionary(thing => thing, thing => thing.X  1.0);
+// Interesting use of the ToDictionary() version.
+// Turns out that if the invoking collection is of KeyValuePairs, a dictionary is built from these.
+// This leads to a easy dictionary sorting operation.
+// Here tmp is <Thing,double>, reorder it to be by ascending Value(double)
+Dictionary<Thing, double> sortedTmp = tmp.OrderBy( kvp => kvp.Value ).ToDictionary(); // rebuilds dictionary
 ```
 
 ## Implementation Considerations
